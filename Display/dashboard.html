@@ -6,9 +6,9 @@
     <title>Admin Panel Sendit - Dashboard</title>
     <link rel="stylesheet" href="./../Css/styleAdmin.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
-    <!-- Sidebar akan dimuat menggunakan Fetch API -->
     <div id="sidebar-container"></div>
 
     <div class="main-content">
@@ -23,23 +23,80 @@
           <p id="total-orders">56</p>
         </div>
         <div class="dashboard-card">
+          <h3>Total Transactions</h3>
+          <p id="total-transactions">20</p>
+        </div>
+        <div class="dashboard-card">
           <h3>Total Revenue</h3>
           <p id="total-revenue">$12,345</p>
         </div>
-        <div class="dashboard-card">
-          <h3>Active Users</h3>
-          <p id="active-users">789</p>
-        </div>
+      </div>
+
+      <div class="chart-container">
+        <canvas id="roleChart"></canvas>
       </div>
     </div>
 
     <script>
+      // Load sidebar
       fetch("sidebar.html")
         .then((response) => response.text())
         .then((data) => {
           document.getElementById("sidebar-container").innerHTML = data;
         })
         .catch((error) => console.error("Error fetching sidebar:", error));
+
+      fetch("/JSON/usersData.json")
+        .then((response) => response.json())
+        .then((usersData) => {
+          // Set user cards
+          document.getElementById("total-users").textContent = usersData.users.length || "N/A";
+          document.getElementById("total-orders").textContent = usersData.users.length * 2 || "N/A";
+          // document.getElementById("total-users").textContent = usersData.length;
+          document.getElementById("kurir").textContent = usersData.filter((user) => user.role === "kurir").length;
+          document.getElementById("customer").textContent = usersData.filter((user) => user.role === "customer").length;
+        })
+        .catch((error) => console.error("Error fetching users data:", error));
+      // Load data from dashboard.json and update the dashboard
+      fetch("/JSON/dashboard.json")
+        .then((response) => response.json())
+        .then((dashboardData) => {
+          // Set dashboard cards
+
+          document.getElementById("total-transactions").textContent = dashboardData.transaction.length;
+          document.getElementById("total-revenue").textContent = `RP.${dashboardData.transaction.reduce((sum, txn) => sum + txn.total, 0).toString() || "N/A"}`;
+
+          // Process transaction data for the chart
+          const transactionTotals = dashboardData.transaction.map((txn) => txn.total);
+          const transactionDates = dashboardData.transaction.map((txn) => txn.tanggal);
+
+          // Create chart
+          const ctx = document.getElementById("roleChart").getContext("2d");
+          new Chart(ctx, {
+            type: "line",
+            data: {
+              labels: transactionDates,
+              datasets: [
+                {
+                  label: "Total Transaction Amount",
+                  data: transactionTotals,
+                  backgroundColor: "rgba(75, 192, 192, 0.2)",
+                  borderColor: "rgba(75, 192, 192, 1)",
+                  borderWidth: 1,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: { position: "top" },
+                title: { display: true, text: "Transactions Over Time" },
+              },
+              scales: { y: { beginAtZero: true } },
+            },
+          });
+        })
+        .catch((error) => console.error("Error fetching dashboard data:", error));
     </script>
   </body>
 </html>
