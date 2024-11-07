@@ -1,77 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Panel Sendit</title>
-    <link rel="stylesheet" href="./../Css/styleAdmin.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-  </head>
-  <body>
-    <div id="sidebar">
-      <!-- <?php include ('sidebar.php'); ?> -->
-    </div>
-    <div class="main-content">
-      <h1>Orders</h1>
-      <div class="dashboard-header">
-        <div class="dashboard-card">
-          <h3>Total Users</h3>
-          <p id="total-users">1,234</p>
-        </div>
-        <div class="dashboard-card">
-          <h3>Total Orders</h3>
-          <p id="total-orders">56</p>
-        </div>
-        <div class="dashboard-card">
-          <h3>Total Revenue</h3>
-          <p id="total-revenue">$12,345</p>
-        </div>
-        <div class="dashboard-card">
-          <h3>Active Users</h3>
-          <p id="active-users">789</p>
-        </div>
-      </div>
-      <div class="sales-overview">
-        <!-- <h2>Sales Overview</h2>
-        <canvas id="sales-chart"></canvas> -->
-      </div>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
-    <script>
-      fetch("sidebar.html")
-        .then((response) => response.text())
-        .then((data) => {
-          document.getElementById("sidebar").innerHTML = data;
-        })
-        .catch((error) => console.error("Error fetching sidebar:", error));
-      // Sample data for the chart
-      const salesData = {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-        datasets: [
-          {
-            label: "Sales",
-            data: [4000, 3000, 5000, 4500, 6000, 5500],
-            backgroundColor: "rgba(54, 162, 235, 0.5)",
-            borderColor: "rgba(54, 162, 235, 1)",
-            borderWidth: 1,
-          },
-        ],
-      };
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel Sendit - Orders</title>
+  <link rel="stylesheet" href="./../Css/styleOrders.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+</head>
+<body>
 
-      // Create the chart
-      const ctx = document.getElementById("sales-chart").getContext("2d");
-      new Chart(ctx, {
-        type: "bar",
-        data: salesData,
-        options: {
-          responsive: true,
-          scales: {
-            y: {
-              beginAtZero: true,
-            },
-          },
-        },
-      });
-    </script>
-  </body>
+<div class="sidebar">
+  <h2>Admin Panel Sendit</h2>
+  <ul>
+    <li>
+      <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+    </li>
+    <li>
+      <a href="users.html"><i class="fas fa-users"></i> Users</a>
+    </li>
+    <li>
+      <a href="orders.html"><i class="fas fa-shopping-cart"></i> Orders</a>
+    </li>
+    <li>
+      <a href="#"><i class="fas fa-cog"></i> Settings</a>
+    </li>
+    <li>
+      <a href="#"><i class="fas fa-question-circle"></i> Help</a>
+    </li>
+  </ul>
+</div>
+
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h1>Orders</h1>
+    <div class="dashboard-header">
+      <div class="dashboard-card">
+        <h3>Total Users</h3>
+        <p id="total-users">1,234</p>
+      </div>
+      <div class="dashboard-card">
+        <h3>Total Orders</h3>
+        <p id="total-orders">56</p>
+      </div>
+      <div class="dashboard-card">
+        <h3>Total Revenue</h3>
+        <p id="total-revenue">$12,345</p>
+      </div>
+      <div class="dashboard-card">
+        <h3>Active Users</h3>
+        <p id="active-users">789</p>
+      </div>
+    </div>
+
+    <!-- Tabel  -->
+    <table>
+      <thead>
+        <tr>
+          <th>Nama Barang</th>
+          <th>Berat Barang</th>
+          <th>Jarak Tempuh</th>
+          <th>Lokasi Penjemputan</th>
+          <th>Lokasi Pengiriman</th>
+          <th>Nama Pengirim</th>
+          <th>Nama Penerima</th>
+          <th>No. Telepon</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- data asal dulu ya ges -->
+        <tr>
+          <td>Barang 1</td>
+          <td>5 kg</td>
+          <td>10 km</td>
+          <td>Jakarta</td>
+          <td>Bandung</td>
+          <td>Ali</td>
+          <td>Rina</td>
+          <td>08123456789</td>
+          <td>
+            <button class="btn-edit">Edit</button>
+            <button class="btn-delete">Delete</button>
+          </td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal untuk edit -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="document.getElementById('editModal').style.display='none'">&times;</span>
+      <h2>Edit Order</h2>
+      <form>
+        <label for="itemName">Nama Barang:</label>
+        <input type="text" id="itemName" name="itemName" />
+
+        <label for="itemWeight">Berat Barang:</label>
+        <input type="number" id="itemWeight" name="itemWeight" />
+
+        <label for="itemDistance">Jarak Tempuh:</label>
+        <input type="number" id="itemDistance" name="itemDistance" />
+
+        <label for="pickupLocation">Lokasi Penjemputan:</label>
+        <input type="text" id="pickupLocation" name="pickupLocation" />
+
+        <label for="deliveryLocation">Lokasi Pengiriman:</label>
+        <input type="text" id="deliveryLocation" name="deliveryLocation" />
+
+        <label for="senderName">Nama Pengirim:</label>
+        <input type="text" id="senderName" name="senderName" />
+
+        <label for="receiverName">Nama Penerima:</label>
+        <input type="text" id="receiverName" name="receiverName" />
+
+        <label for="phoneNumber">No. Telepon:</label>
+        <input type="tel" id="phoneNumber" name="phoneNumber" />
+
+        <button type="submit">Save Changes</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const modal = document.getElementById("editModal");
+    const editButtons = document.querySelectorAll(".btn-edit");
+    editButtons.forEach((btn) => {
+      btn.onclick = function() {
+        modal.style.display = "block";
+      };
+    });
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    };
+  </script>
+</body>
 </html>
