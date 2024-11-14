@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,33 +8,12 @@
   <link rel="stylesheet" href="./../Css/styleOrders.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
+
 <body>
+  <div id="sidebar"></div>
 
-<div class="sidebar">
-  <h2>Admin Panel Sendit</h2>
-  <ul>
-    <li>
-      <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
-    </li>
-    <li>
-      <a href="users.html"><i class="fas fa-users"></i> Users</a>
-    </li>
-    <li>
-      <a href="orders.html"><i class="fas fa-shopping-cart"></i> Orders</a>
-    </li>
-    <li>
-      <a href="#"><i class="fas fa-cog"></i> Settings</a>
-    </li>
-    <li>
-      <a href="#"><i class="fas fa-question-circle"></i> Help</a>
-    </li>
-  </ul>
-</div>
-
-
-  <!-- Main Content -->
   <div class="main-content">
-    <h1>Orders</h1>
+    <h1>Admin Dashboard</h1>
     <div class="dashboard-header">
       <div class="dashboard-card">
         <h3>Total Users</h3>
@@ -44,99 +24,72 @@
         <p id="total-orders">56</p>
       </div>
       <div class="dashboard-card">
+        <h3>Total Transactions</h3>
+        <p id="total-transactions">20</p>
+      </div>
+      <div class="dashboard-card">
         <h3>Total Revenue</h3>
         <p id="total-revenue">$12,345</p>
       </div>
-      <div class="dashboard-card">
-        <h3>Active Users</h3>
-        <p id="active-users">789</p>
-      </div>
     </div>
 
-    <!-- Tabel  -->
-    <table>
-      <thead>
-        <tr>
-          <th>Nama Barang</th>
-          <th>Berat Barang</th>
-          <th>Jarak Tempuh</th>
-          <th>Lokasi Penjemputan</th>
-          <th>Lokasi Pengiriman</th>
-          <th>Nama Pengirim</th>
-          <th>Nama Penerima</th>
-          <th>No. Telepon</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- data asal dulu ya ges -->
-        <tr>
-          <td>Barang 1</td>
-          <td>5 kg</td>
-          <td>10 km</td>
-          <td>Jakarta</td>
-          <td>Bandung</td>
-          <td>Ali</td>
-          <td>Rina</td>
-          <td>08123456789</td>
-          <td>
-            <button class="btn-edit">Edit</button>
-            <button class="btn-delete">Delete</button>
-          </td>
-        </tr>
-        
-      </tbody>
-    </table>
+    <div class="bg-table">
+      <h2>Table Orders</h2>
+      <table id="table-order">
+        <thead>
+          <tr>
+            <th>Nama Barang</th>
+            <th>Berat Barang</th>
+            <th>Jarak Tempuh</th>
+            <th>Lokasi Penjemputan</th>
+            <th>Lokasi Pengiriman</th>
+            <th>Nama Pengirim</th>
+            <th>Nama Penerima</th>
+            <th>No. Telepon</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="ordersTable"></tbody>
+      </table>
+    </div>
   </div>
 
-  <!-- Modal untuk edit -->
+  <!-- Modal for Edit Order -->
   <div id="editModal" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="document.getElementById('editModal').style.display='none'">&times;</span>
+      <span class="close">&times;</span>
       <h2>Edit Order</h2>
-      <form>
-        <label for="itemName">Nama Barang:</label>
-        <input type="text" id="itemName" name="itemName" />
+      <form id="editForm">
+        <label for="itemName">Nama Barang</label>
+        <input type="text" id="itemName" name="itemName" required />
+        <label for="itemWeight">Berat Barang</label>
+        <select id="itemWeight" name="itemWeight" required>
+          <option value="Ringan (<5kg)">Ringan (&lt;5kg)</option>
+          <option value="Sedang (5-20kg)">Sedang (5-20kg)</option>
+          <option value="Berat (>20kg)">Berat (&gt;20kg)</option>
+        </select>
 
-        <label for="itemWeight">Berat Barang:</label>
-        <input type="number" id="itemWeight" name="itemWeight" />
-
-        <label for="itemDistance">Jarak Tempuh:</label>
-        <input type="number" id="itemDistance" name="itemDistance" />
-
-        <label for="pickupLocation">Lokasi Penjemputan:</label>
-        <input type="text" id="pickupLocation" name="pickupLocation" />
-
-        <label for="deliveryLocation">Lokasi Pengiriman:</label>
-        <input type="text" id="deliveryLocation" name="deliveryLocation" />
-
-        <label for="senderName">Nama Pengirim:</label>
-        <input type="text" id="senderName" name="senderName" />
-
-        <label for="receiverName">Nama Penerima:</label>
-        <input type="text" id="receiverName" name="receiverName" />
-
-        <label for="phoneNumber">No. Telepon:</label>
-        <input type="tel" id="phoneNumber" name="phoneNumber" />
-
+        </select>
+        <label for="itemDistance">Jarak Tempuh</label>
+        <input type="text" id="itemDistance" name="itemDistance" required />
+        <label for="pickupLocation">Lokasi Penjemputan</label>
+        <input type="text" id="pickupLocation" name="pickupLocation" required />
+        <label for="deliveryLocation">Lokasi Pengiriman</label>
+        <input type="text" id="deliveryLocation" name="deliveryLocation" required />
+        <label for="senderName">Nama Pengirim</label>
+        <input type="text" id="senderName" name="senderName" required />
+        <label for="receiverName">Nama Penerima</label>
+        <input type="text" id="receiverName" name="receiverName" required />
+        <label for="phoneNumber">No. Telepon</label>
+        <input type="text" id="phoneNumber" name="phoneNumber" required />
         <button type="submit">Save Changes</button>
       </form>
     </div>
   </div>
 
-  <script>
-    const modal = document.getElementById("editModal");
-    const editButtons = document.querySelectorAll(".btn-edit");
-    editButtons.forEach((btn) => {
-      btn.onclick = function() {
-        modal.style.display = "block";
-      };
-    });
-    window.onclick = function(event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    };
-  </script>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="/js/UbahDataOrder.js"></script>
 </body>
+
 </html>

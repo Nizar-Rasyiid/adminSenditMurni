@@ -1,0 +1,34 @@
+{
+  "orders": [
+    {
+      "itemName": "Laptop",
+      "itemWeight": "Sedang (>5kg)",
+      "itemDistance": "10km",
+      "pickupLocation": "Jakarta",
+      "deliveryLocation": "Bandung",
+      "senderName": "John Doe",
+      "receiverName": "Jane Smith",
+      "phoneNumber": "081234567890"
+    },
+    {
+      "itemName": "Televisi",
+      "itemWeight": "Sedang (>5kg)",
+      "itemDistance": "30km",
+      "pickupLocation": "Surabaya",
+      "deliveryLocation": "Malang",
+      "senderName": "Alex Johnson",
+      "receiverName": "Maya Lee",
+      "phoneNumber": "082345678901"
+    },
+    {
+      "itemName": "Buku",
+      "itemWeight": "Ringan (<5kg)",
+      "itemDistance": "50km",
+      "pickupLocation": "Yogyakarta",
+      "deliveryLocation": "Solo",
+      "senderName": "Rina Andini",
+      "receiverName": "Budi Santoso",
+      "phoneNumber": "083456789012"
+    }
+  ]
+}
